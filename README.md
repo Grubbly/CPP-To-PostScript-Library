@@ -6,4 +6,4 @@ CS372 Project 2
 #### Figure 1:
 > Cyan arrow lines represent inheritance
 >
-> Green lines represent a modular member function (note: they could also be derived classes, but this may be sloppy)
+> Green lines represent a modular member function (note: they could also be derived classes, but this may be shloppy)
