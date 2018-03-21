@@ -1,3 +1,7 @@
+/*
+polygon.h
+*/
+
 #include "shape.h"
 
 #ifndef POLYGON_H
