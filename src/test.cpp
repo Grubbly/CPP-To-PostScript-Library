@@ -20,6 +20,7 @@ TEST_CASE("Catch working using factorial function?", "[Test Catch]")
 {
 	REQUIRE(factorial(2) == 2);
 	REQUIRE(factorial(3) == 6);
+	REQUIRE(factorial(-1) == -1);
 }
 
 TEST_CASE("Shape", "[]")
