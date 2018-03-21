@@ -2,7 +2,7 @@
 CS372 Project 2 
 
 ## First Draft Shape Class Structure
-![Shape Class](FirstDraftClassStructure.png)
+![Shape Class](README/FirstDraftClassStructure.png)
 #### Figure 1:
 > Cyan arrow lines represent inheritance
 >
