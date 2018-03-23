@@ -1,10 +1,11 @@
-/*
-test.cpp
-Tristan Van Cise & Collin Lasley
-Project 2 - CPS Library
-03/21/2018
-All test cases involving catch are defined here
-*/
+/*-------------------------------------------------------
+ | CS 372: Software Construction                        |
+ | Project 2: C++ To PostScript Library                 |
+ | Date: 3/20/18                                        |
+ | File: test.cpp                                       |
+ | Written By: Collin Lasley & Tristan Van Cise         |
+ | Description: Unit Tests For Library, Using Catch     |
+ ------------------------------------------------------*/
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
