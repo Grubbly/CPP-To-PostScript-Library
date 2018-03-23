@@ -8,8 +8,12 @@
  ------------------------------------------------------*/
 
 #define CATCH_CONFIG_MAIN
+
+
 #include "catch.hpp"
 #include <iostream>
+
+
 using std::cin;
 
 int factorial(int a)
