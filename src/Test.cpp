@@ -13,6 +13,10 @@
 #include "catch.hpp"
 #include <iostream>
 
+#include "Shape.h"
+
+using namespace PostLib;
+
 
 using std::cin;
 
@@ -28,7 +32,17 @@ TEST_CASE("Catch working using factorial function?", "[Test Catch]")
 	REQUIRE(factorial(-1) == -1);
 }
 
-TEST_CASE("Shape", "[]")
+TEST_CASE("Shape Accessors", "[SHAPE]")
 {
-	//add test cases here once classes are defined
+    PostLib::Shape              aShape;
+    PostLib::PrimitiveRectangle aRect;
+    PostLib::PostScriptPoint    aPoint;
+    
+    aPoint = (PostLib::PostScriptPoint){500, 500};
+    aRect = (PostLib::PrimitiveRectangle){aPoint, 200, 200};
+    
+    aShape.setCenter(aPoint);
+    aShape.setBounds(aRect);
+    
+    REQUIRE(aShape.bounds().origin == aPoint);
 }

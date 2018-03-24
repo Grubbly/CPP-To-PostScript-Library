@@ -12,7 +12,7 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-class Circle : Shape
+class Circle : PostLib::Shape
 {
 public:
 

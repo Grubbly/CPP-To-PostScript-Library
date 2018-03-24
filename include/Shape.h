@@ -10,12 +10,39 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-class Shape
-{
-public:
-
-private:
-
-};
+namespace PostLib {
+    
+    typedef struct{
+        signed int x;
+        signed int y;
+    }PostScriptPoint;
+    
+    typedef struct{
+        signed int width;
+        signed int height;
+    }Size;
+    
+    typedef struct{
+        PostScriptPoint origin;
+        Size            size;
+    }PrimitiveRectangle;
+    
+    
+    
+    class Shape {
+    public:
+        
+        PostScriptPoint    center(void) const;
+        PrimitiveRectangle bounds(void) const;
+        void               setCenter(const PostScriptPoint& newCenter);
+        void               setBounds(const PrimitiveRectangle &newBounds);
+        
+    private:
+        PostScriptPoint    centerPoint;
+        PrimitiveRectangle boundingBox;
+        
+    };
+    
+}
 
 #endif // !SHAPE_H

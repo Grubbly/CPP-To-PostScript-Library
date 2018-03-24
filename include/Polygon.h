@@ -12,7 +12,7 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
-class Polygon : Shape
+class Polygon : PostLib::Shape
 {
 public:
 
