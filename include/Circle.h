@@ -22,6 +22,8 @@ namespace PostLib {
         Circle();
         Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius);
         
+        virtual int        PostScriptRepresentation(void) override;
+        
     protected:
         unsigned int radius;
     };

@@ -65,3 +65,16 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
     REQUIRE(aCircle.bounds().origin.x == aPoint.x - 12);
     REQUIRE(aCircle.bounds().origin.y == aPoint.y - 12);
 }
+
+TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
+{
+    PostLib::Circle             aCircle;
+    PostLib::PrimitiveRectangle aRect;
+    PostLib::PostScriptPoint    aPoint;
+    
+    aPoint = (PostLib::PostScriptPoint){500, 500};
+    
+    aCircle = Circle(aPoint, 12);
+    
+    aCircle.PostScriptRepresentation();
+}
