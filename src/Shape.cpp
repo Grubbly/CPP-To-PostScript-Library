@@ -7,6 +7,7 @@
  | Description: Implementation Of Shape Class           |
  ------------------------------------------------------*/
 
+
 #include "Shape.h"
 
 using PostLib::PostScriptPoint;

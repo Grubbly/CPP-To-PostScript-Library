@@ -7,17 +7,19 @@
  | Description: Header Of Circle Class                  |
  ------------------------------------------------------*/
 
+#include <string>
+
 #include "shape.h"
 
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-class Circle : PostLib::Shape
+class Circle : public PostLib::Shape
 {
 public:
 
 private:
-
+    unsigned int radius;
 };
 
 #endif // !CIRCLE_H

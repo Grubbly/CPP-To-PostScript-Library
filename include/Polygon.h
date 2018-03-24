@@ -7,6 +7,8 @@
  | Description: Header Of Polygon Class                 |
  ------------------------------------------------------*/
 
+#include <string>
+
 #include "shape.h"
 
 #ifndef POLYGON_H

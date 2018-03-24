@@ -7,6 +7,8 @@
  | Description: Header Of Shape Class                   |
  ------------------------------------------------------*/
 
+#include <string>
+
 #ifndef SHAPE_H
 #define SHAPE_H
 
