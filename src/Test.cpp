@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include "Shape.h"
+#include "Circle.h"
 
 using namespace PostLib;
 
@@ -49,4 +50,18 @@ TEST_CASE("Shape Accessors", "[SHAPE]")
     
     REQUIRE(aShape.bounds().size.width == aRect.size.width);
     REQUIRE(aShape.bounds().size.height == aRect.size.height);
+}
+
+TEST_CASE("Circle Construction", "[CIRCLE]")
+{
+    PostLib::Circle             aCircle;
+    PostLib::PrimitiveRectangle aRect;
+    PostLib::PostScriptPoint    aPoint;
+    
+    aPoint = (PostLib::PostScriptPoint){500, 500};
+    
+    aCircle = Circle(aPoint, 12);
+    
+    REQUIRE(aCircle.bounds().origin.x == aPoint.x - 12);
+    REQUIRE(aCircle.bounds().origin.y == aPoint.y - 12);
 }

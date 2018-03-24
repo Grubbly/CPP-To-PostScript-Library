@@ -18,7 +18,7 @@ class Polygon : PostLib::Shape
 {
 public:
 
-private:
+protected:
 
 };
 

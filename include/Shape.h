@@ -33,13 +33,15 @@ namespace PostLib {
     
     class Shape {
     public:
+        Shape();
+        Shape(PostLib::PostScriptPoint aCenter, PostLib::PrimitiveRectangle aBoundingBox);
         
         PostScriptPoint    center(void) const;
         PrimitiveRectangle bounds(void) const;
         void               setCenter(const PostScriptPoint& newCenter);
         void               setBounds(const PrimitiveRectangle &newBounds);
         
-    private:
+    protected:
         PostScriptPoint    centerPoint;
         PrimitiveRectangle boundingBox;
         

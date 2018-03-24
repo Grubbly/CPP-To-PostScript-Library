@@ -13,6 +13,17 @@
 using PostLib::PostScriptPoint;
 using PostLib::PrimitiveRectangle;
 
+PostLib::Shape::Shape()
+{
+    
+}
+
+PostLib::Shape::Shape(PostLib::PostScriptPoint aCenter, PostLib::PrimitiveRectangle aBoundingBox)
+{
+    this->centerPoint = aCenter;
+    this->boundingBox = aBoundingBox;
+}
+
 PostScriptPoint PostLib::Shape::center(void) const
 {
     return this->centerPoint;

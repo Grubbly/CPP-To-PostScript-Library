@@ -14,12 +14,18 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-class Circle : public PostLib::Shape
-{
-public:
-
-private:
-    unsigned int radius;
-};
+namespace PostLib {
+    
+    class Circle : public PostLib::Shape
+    {
+    public:
+        Circle();
+        Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius);
+        
+    protected:
+        unsigned int radius;
+    };
+    
+}
 
 #endif // !CIRCLE_H
