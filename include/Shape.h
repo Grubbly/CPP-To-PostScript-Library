@@ -23,8 +23,8 @@ namespace PostLib {
     }Size;
     
     typedef struct{
-        PostScriptPoint origin;
-        Size            size;
+        PostLib::PostScriptPoint origin;
+        PostLib::Size            size;
     }PrimitiveRectangle;
     
     

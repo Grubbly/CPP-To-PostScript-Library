@@ -44,5 +44,9 @@ TEST_CASE("Shape Accessors", "[SHAPE]")
     aShape.setCenter(aPoint);
     aShape.setBounds(aRect);
     
-    REQUIRE(aShape.bounds().origin == aPoint);
+    REQUIRE(aShape.bounds().origin.x == aPoint.x);
+    REQUIRE(aShape.bounds().origin.y == aPoint.y);
+    
+    REQUIRE(aShape.bounds().size.width == aRect.size.width);
+    REQUIRE(aShape.bounds().size.height == aRect.size.height);
 }
