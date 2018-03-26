@@ -10,13 +10,7 @@
 
 #include "circle.h"
 #include <iostream>
-#include <regex>
 #include <cstring>
-
-std::string strSearchReplace(std::string const &inStr, std::string const &searchStr, std::string const &replaceStr)
-{
-    return std::regex_replace(inStr, std::regex(searchStr), replaceStr);
-}
 
 PostLib::Circle::Circle()
 {
