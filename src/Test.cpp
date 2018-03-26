@@ -22,22 +22,7 @@ static std::string psCommands;
 
 using namespace PostLib;
 
-#define OUTPUT_FILE 1
-
-
-using std::cin;
-
-int factorial(int a)
-{
-	return a <= 1 ? a : a * factorial(a - 1);
-}
-
-TEST_CASE("Catch working using factorial function?", "[Test Catch]")
-{
-	REQUIRE(factorial(2) == 2);
-	REQUIRE(factorial(3) == 6);
-	REQUIRE(factorial(-1) == -1);
-}
+#define OUTPUT_FILE 0
 
 TEST_CASE("Shape Accessors", "[SHAPE]")
 {
