@@ -11,6 +11,7 @@
 #include "circle.h"
 #include <iostream>
 #include <regex>
+#include <cstring>
 
 std::string strSearchReplace(std::string const &inStr, std::string const &searchStr, std::string const &replaceStr)
 {
@@ -22,6 +23,8 @@ PostLib::Circle::Circle()
     PrimitiveRectangle newBoundBox;
     PostScriptPoint    centerPoint;
     
+    centerPoint.x     = 50;
+    centerPoint.y     = 50;
     this->radius            = 2;
     newBoundBox.origin.x    = (int)(centerPoint.x - radius);
     newBoundBox.origin.y    = (int)(centerPoint.y - radius);
@@ -48,20 +51,22 @@ PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radiu
 int PostLib::Circle::PostScriptRepresentation(void)
 {
     //PostLib::Shape::PostScriptCode
-    std::string psCode = "/renderCenterDots {\
-    2 dict begin\
-        /drawPosX %%DRAWPOSX%% def\
-        /drawPosY %%DRAWPOSY%% def\
-        \
-        drawPosX drawPosY %%RADIUS%% 0 360 arc fill\
-        \
-        end\
-    } def";
+    char* replacedCirclePSCode;
+    const char* blankCirclePSCode = "/renderCenterDots {\n\
+    2 dict begin\n\
+        /drawPosX %d def\n\
+        /drawPosY %d def\n\
+        \n\
+        drawPosX drawPosY %d 0 360 arc fill\n\
+        \n\
+        end\n\
+    } def\n\n\n\n";
     
-    strSearchReplace(psCode, "%%DRAWPOSX%%", std::to_string(this->center().x));
-    strSearchReplace(psCode, "%%DRAWPOSY%%", std::to_string(this->center().y));
-    strSearchReplace(psCode, "%%RADIUS%%"  , std::to_string(this->radius));
-    std::cout<<psCode<<std::endl;
+    replacedCirclePSCode = (char *)malloc(strlen(blankCirclePSCode));
+    sprintf(replacedCirclePSCode, blankCirclePSCode, this->centerPoint.x, this->centerPoint.y, this->radius);
+    this->PostScriptCode = std::string(replacedCirclePSCode);
+    
+    free(replacedCirclePSCode);
     
     return 0;
 }
