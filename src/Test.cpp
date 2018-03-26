@@ -12,11 +12,17 @@
 
 #include "catch.hpp"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include "Shape.h"
 #include "Circle.h"
 
+static std::string psCommands;
+
 using namespace PostLib;
+
+#define OUTPUT_FILE 1
 
 
 using std::cin;
@@ -72,9 +78,26 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
     PostLib::PrimitiveRectangle aRect;
     PostLib::PostScriptPoint    aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){500, 500};
+    aPoint = (PostLib::PostScriptPoint){72, 72};
     
     aCircle = Circle(aPoint, 12);
     
     aCircle.PostScriptRepresentation();
+    psCommands.append(aCircle.postScript());
+}
+
+TEST_CASE("File Output", "I/O")
+{
+    std::ofstream outFile;
+    
+#if OUTPUT_FILE
+    outFile.open("/file.ps");
+    outFile << "%!\n";
+    outFile << psCommands << "\n" << "renderCircle\n\n";
+    
+    outFile << "showpage\n\n";
+    outFile.close();
+#else
+    
+#endif
 }

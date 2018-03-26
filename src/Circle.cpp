@@ -46,7 +46,7 @@ int PostLib::Circle::PostScriptRepresentation(void)
 {
     //PostLib::Shape::PostScriptCode
     char* replacedCirclePSCode;
-    const char* blankCirclePSCode = "/renderCenterDots {\n\
+    const char* blankCirclePSCode = "/renderCircle {\n\
     2 dict begin\n\
         /drawPosX %d def\n\
         /drawPosY %d def\n\
@@ -63,4 +63,9 @@ int PostLib::Circle::PostScriptRepresentation(void)
     free(replacedCirclePSCode);
     
     return 0;
+}
+
+std::string PostLib::Circle::postScript() const
+{
+    return this->PostScriptCode;
 }
