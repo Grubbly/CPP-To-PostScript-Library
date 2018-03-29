@@ -30,8 +30,8 @@ TEST_CASE("Shape Accessors", "[SHAPE]")
     PostLib::PrimitiveRectangle aRect;
     PostLib::PostScriptPoint    aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){500, 500};
-    aRect = (PostLib::PrimitiveRectangle){aPoint, 200, 200};
+    aPoint = {500, 500};
+    aRect = {aPoint, 200, 200};
     
     aShape.setCenter(aPoint);
     aShape.setBounds(aRect);
@@ -46,10 +46,9 @@ TEST_CASE("Shape Accessors", "[SHAPE]")
 TEST_CASE("Circle Construction", "[CIRCLE]")
 {
     PostLib::Circle             aCircle;
-    PostLib::PrimitiveRectangle aRect;
     PostLib::PostScriptPoint    aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){500, 500};
+    aPoint = {500, 500};
     
     aCircle = Circle(aPoint, 12);
     
@@ -60,10 +59,9 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
 TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
 {
     PostLib::Circle             aCircle;
-    PostLib::PrimitiveRectangle aRect;
     PostLib::PostScriptPoint    aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){72, 72};
+    aPoint = {72, 72};
     
     aCircle = Circle(aPoint, 12);
     
