@@ -44,7 +44,6 @@ PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radiu
 
 int PostLib::Circle::PostScriptRepresentation(void)
 {
-    //PostLib::Shape::PostScriptCode
     char* replacedCirclePSCode;
     const char* blankCirclePSCode = "/renderCircle {\n\
     2 dict begin\n\

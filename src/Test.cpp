@@ -22,7 +22,7 @@ static std::string psCommands;
 
 using namespace PostLib;
 
-#define OUTPUT_FILE 0
+#define OUTPUT_FILE 1
 
 TEST_CASE("Shape Accessors", "[SHAPE]")
 {
