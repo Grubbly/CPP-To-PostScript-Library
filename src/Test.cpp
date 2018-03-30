@@ -16,6 +16,7 @@
 
 #include "Shape.h"
 #include "Circle.h"
+#include "Polygon.h"
 
 static std::string psCommands;
 
@@ -115,7 +116,21 @@ TEST_CASE("File Output", "I/O")
 #endif
 }
 
-TEST_CASE("3 Sided Polygons of Variable Length", "[POLYGON]")
+TEST_CASE("Polygon Side Lengths (Default Ctor)", "[POLYGON]")
 {
+	PostLib::Polygon aPoly;
 
+	REQUIRE(aPoly.getNumSides() == 3);
+	REQUIRE(aPoly.getSideLength() == 1.0);
+}
+
+TEST_CASE("Polygon Side Lengths (2 param Ctor)", "[POLYGON]")
+{
+	const unsigned int SIDES = 5;
+	const double SIDE_LENGTH = 3;
+
+	PostLib::Polygon aPoly(SIDES, SIDE_LENGTH);
+
+	REQUIRE(aPoly.getNumSides() == SIDES);
+	REQUIRE(aPoly.getSideLength() == SIDE_LENGTH);
 }

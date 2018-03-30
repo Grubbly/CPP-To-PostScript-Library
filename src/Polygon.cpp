@@ -10,11 +10,11 @@
 
 #include "Polygon.h"
 
-PostLib::Polygon::Polygon() : _numSides(3), _sideLength(1)
+PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 48,48 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
 {
 }
 
-PostLib::Polygon::Polygon(unsigned int numSides, double sideLength) : _numSides(numSides), _sideLength(sideLength)
+PostLib::Polygon::Polygon(unsigned int numSides, double sideLength) : Shape({ 50,50 }, { { 48,48 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
 {
 }
 
@@ -29,7 +29,7 @@ int PostLib::Polygon::PostScriptRepresentation()
 	return 0;
 }
 
-unsigned int PostLib::Polygon::getNumSides() const
+int PostLib::Polygon::getNumSides() const
 {
 	return _numSides;
 }

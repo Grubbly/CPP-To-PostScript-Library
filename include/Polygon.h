@@ -24,11 +24,11 @@ namespace PostLib {
 
 		virtual int		   PostScriptRepresentation() override;
 
-		unsigned int	   getNumSides() const;
+		int				   getNumSides() const;
 		double			   getSideLength() const;
 
 	private:
-		unsigned int _numSides;
+		int _numSides;
 		double _sideLength;
 
 		unsigned int	  calculateRegularAngle(unsigned int numSides);
