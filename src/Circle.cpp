@@ -28,9 +28,9 @@ PostLib::Circle::Circle() : Shape({ 50,50 }, { {48,48} , {4,4} }), radius(2)
     Shape(centerPoint, newBoundBox);*/
 }
 
-PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius)
+PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius) : Shape(centerPoint, { {(centerPoint.x - (int)radius), (centerPoint.y - (int)radius)}, {2* (int)radius, 2* (int)radius} }), radius((int)radius)
 {
-    PrimitiveRectangle newBoundBox;
+    /*PrimitiveRectangle newBoundBox;
     
     this->radius            = radius;
     newBoundBox.origin.x    = (int)(centerPoint.x - radius);
@@ -39,7 +39,7 @@ PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radiu
     newBoundBox.size.height = 2*radius;
     
     this->boundingBox = newBoundBox;
-    this->centerPoint = centerPoint;
+    this->centerPoint = centerPoint;*/
 }
 
 int PostLib::Circle::PostScriptRepresentation(void)
