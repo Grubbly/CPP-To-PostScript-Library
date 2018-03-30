@@ -53,6 +53,37 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
     
     REQUIRE(aCircle.bounds().origin.x == aPoint.x - 12);
     REQUIRE(aCircle.bounds().origin.y == aPoint.y - 12);
+
+
+	const unsigned int bRADIUS = 42;
+	PostScriptPoint bPoint = { 10, 10 };
+
+	Circle bCircle = { bPoint, bRADIUS };
+
+	REQUIRE(bCircle.bounds().origin.x == bPoint.x - bRADIUS);
+	REQUIRE(bCircle.bounds().origin.y == bPoint.y - bRADIUS);
+}
+
+TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")
+{
+	const unsigned int RADIUS = 42;
+	PostScriptPoint aPoint = { 20, 20 };
+
+	Circle aCircle = { aPoint, RADIUS };
+
+	REQUIRE(aCircle.bounds().origin.x == -22);
+	REQUIRE(aCircle.bounds().origin.y == aPoint.y - RADIUS);
+}
+
+TEST_CASE("Circle Bounding Box Size", "[CIRCLE]")
+{
+	const unsigned int RADIUS = 42;
+	PostScriptPoint aPoint = { 10, 10 };
+
+	Circle aCircle = { aPoint, RADIUS };
+
+	REQUIRE(aCircle.bounds().size.width == RADIUS*2);
+	REQUIRE(aCircle.bounds().size.height == RADIUS*2);
 }
 
 TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
