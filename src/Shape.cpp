@@ -24,6 +24,8 @@ PostLib::Shape::Shape(PostLib::PostScriptPoint aCenter, PostLib::PrimitiveRectan
     this->boundingBox = aBoundingBox;
 }
 
+PostLib::Shape::~Shape() = default;
+
 PostScriptPoint PostLib::Shape::center(void) const
 {
     return this->centerPoint;

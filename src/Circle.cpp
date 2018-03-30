@@ -12,9 +12,9 @@
 #include <iostream>
 #include <cstring>
 
-PostLib::Circle::Circle()
+PostLib::Circle::Circle() : Shape({ 50,50 }, { {48,48} , {4,4} }), radius(2)
 {
-    PrimitiveRectangle newBoundBox;
+    /*PrimitiveRectangle newBoundBox;
     PostScriptPoint    centerPoint;
     
     centerPoint.x     = 50;
@@ -25,7 +25,7 @@ PostLib::Circle::Circle()
     newBoundBox.size.width  = 2*radius;
     newBoundBox.size.height = 2*radius;
     
-    Shape(centerPoint, newBoundBox);
+    Shape(centerPoint, newBoundBox);*/
 }
 
 PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius)
@@ -59,7 +59,7 @@ int PostLib::Circle::PostScriptRepresentation(void)
     sprintf(replacedCirclePSCode, blankCirclePSCode, this->centerPoint.x, this->centerPoint.y, this->radius);
     this->PostScriptCode = std::string(replacedCirclePSCode);
     
-    free(replacedCirclePSCode);
+    //free(replacedCirclePSCode);
     
     return 0;
 }

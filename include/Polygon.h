@@ -17,7 +17,8 @@
 class Polygon : PostLib::Shape
 {
 public:
-
+	Polygon();
+	Polygon(double numSides, double sideLength);
 protected:
 
 };

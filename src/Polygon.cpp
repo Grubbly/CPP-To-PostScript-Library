@@ -9,3 +9,11 @@
 
 
 #include "Polygon.h"
+
+Polygon::Polygon()
+{
+}
+
+Polygon::Polygon(double numSides, double sideLength)
+{
+}
