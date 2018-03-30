@@ -116,7 +116,7 @@ TEST_CASE("File Output", "I/O")
 #endif
 }
 
-TEST_CASE("Polygon Side Lengths (Default Ctor)", "[POLYGON]")
+TEST_CASE("Polygon Side Lengths and Number of Sides (Default Ctor)", "[POLYGON]")
 {
 	PostLib::Polygon aPoly;
 
@@ -124,7 +124,7 @@ TEST_CASE("Polygon Side Lengths (Default Ctor)", "[POLYGON]")
 	REQUIRE(aPoly.getSideLength() == 1.0);
 }
 
-TEST_CASE("Polygon Side Lengths (2 param Ctor)", "[POLYGON]")
+TEST_CASE("Polygon Side Lengths and Number of Sides (2 param Ctor)", "[POLYGON]")
 {
 	const unsigned int SIDES = 5;
 	const double SIDE_LENGTH = 3;
