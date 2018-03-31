@@ -17,6 +17,7 @@
 #include "Shape.h"
 #include "Circle.h"
 #include "Rectangle.h"
+#include "Polygon.h"
 
 static std::string psCommands;
 
