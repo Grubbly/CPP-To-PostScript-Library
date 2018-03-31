@@ -16,6 +16,8 @@
 
 #include "Shape.h"
 #include "Circle.h"
+#include "Rectangle.h"
+#include "Spacer.h"
 #include "Polygon.h"
 
 static std::string psCommands;
@@ -100,6 +102,34 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
     psCommands.append(aCircle.postScript());
 }
 
+TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
+{
+    PostLib::Rectangle             objRect;
+    PostLib::PrimitiveRectangle    aRect;
+    PostLib::PostScriptPoint       aPoint;
+    
+    aPoint = (PostLib::PostScriptPoint){120, 120};
+    
+    objRect = Rectangle(aPoint, 100, 100);
+    
+    objRect.PostScriptRepresentation();
+    psCommands.append(objRect.postScript());
+}
+
+TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
+{
+    PostLib::Spacer                objRect;
+    PostLib::PrimitiveRectangle    aRect;
+    PostLib::PostScriptPoint       aPoint;
+    
+    aPoint = (PostLib::PostScriptPoint){120, 120};
+    
+    objRect = Spacer(aPoint, 150, 150);
+    
+    objRect.PostScriptRepresentation();
+    psCommands.append(objRect.postScript());
+}
+
 TEST_CASE("File Output", "I/O")
 {
     std::ofstream outFile;
@@ -107,7 +137,8 @@ TEST_CASE("File Output", "I/O")
 #if OUTPUT_FILE
     outFile.open("/file.ps");
     outFile << "%!\n";
-    outFile << psCommands << "\n" << "renderCircle\n\n";
+    outFile << psCommands << "\n" << "renderCircle\n\naRect\n\naSpace\n\n";
+
     
     outFile << "showpage\n\n";
     outFile.close();

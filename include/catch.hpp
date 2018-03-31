@@ -5172,7 +5172,6 @@ namespace Catch {
 #include <vector>
 
 #include <assert.h>
-#include <crtdbg.h>
 
 #ifndef CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH
 #define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH 80
