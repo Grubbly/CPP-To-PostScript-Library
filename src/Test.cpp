@@ -1,11 +1,11 @@
-/*-------------------------------------------------------
- | CS 372: Software Construction                        |
- | Project 2: C++ To PostScript Library                 |
- | Date: 3/20/18                                        |
- | File: test.cpp                                       |
- | Written By: Collin Lasley & Tristan Van Cise         |
- | Description: Unit Tests For Library, Using Catch     |
- ------------------------------------------------------*/
+///*-------------------------------------------------------
+// | CS 372: Software Construction                        |
+// | Project 2: C++ To PostScript Library                 |
+// | Date: 3/20/18                                        |
+// | File: test.cpp                                       |
+// | Written By: Collin Lasley & Tristan Van Cise         |
+// | Description: Unit Tests For Library, Using Catch     |
+// ------------------------------------------------------*/
 
 #define CATCH_CONFIG_MAIN
 
@@ -128,7 +128,7 @@ TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
     psCommands.append(objRect.postScript());
 }
 
-TEST_CASE("File Output", "I/O")
+TEST_CASE("File Output - Circle", "[Circle I/O]")
 {
     std::ofstream outFile;
     
@@ -159,9 +159,39 @@ TEST_CASE("Polygon Side Lengths and Number of Sides (2 param Ctor)", "[POLYGON]"
 {
 	const unsigned int SIDES = 5;
 	const double SIDE_LENGTH = 3;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
 
-	PostLib::Polygon aPoly(SIDES, SIDE_LENGTH);
+	PostLib::Polygon aPoly(aPoint, SIDES, SIDE_LENGTH);
 
 	REQUIRE(aPoly.getNumSides() == SIDES);
 	REQUIRE(aPoly.getSideLength() == SIDE_LENGTH);
+}
+
+TEST_CASE("File Output - Polygon", "[Polygon I/O]")
+{
+	const unsigned int SIDES = 5;
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	PostLib::Polygon aPoly(aPoint, SIDES, SIDE_LENGTH);
+
+	//if i do polyTest.ps the file does not open or get written to...
+	std::ofstream outFile("polyTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << "%!PS-Adobe-3.0" << std::endl;
+	outFile << "%%Pages: 1"     << std::endl;
+	outFile << "%%EndComments"  << std::endl;
+	outFile << "\n\n\n /inch {72 mul} def\n\n";
+
+	outFile << aPoly.PostScriptRepresentation() << "\n\n\n";
+	outFile << "%%Page: 1 1\n\n";
+
+	outFile << "gsave" << std::endl;
+	outFile << aPoly.bounds().origin.x << " inch " << aPoly.bounds().origin.y << " inch "\
+			<< aPoly.getNumSides() << " " << aPoly.getSideLength() << " inch ngon" << std::endl;
+	outFile << "fill" << std::endl;
+	outFile << "grestore" << std::endl;
+	outFile << "showpage" << std::endl;
 }

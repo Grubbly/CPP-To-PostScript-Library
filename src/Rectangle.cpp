@@ -25,7 +25,7 @@ PostLib::Rectangle::Rectangle(PostLib::PostScriptPoint centerPoint, unsigned int
     this->centerPoint             = centerPoint;
 }
 
-int PostLib::Rectangle::PostScriptRepresentation(void)
+std::string PostLib::Rectangle::PostScriptRepresentation(void)
 {
     char* replacedRectPSCode;
     const char* blankRectPSCode = "/aRect {\n\
@@ -49,7 +49,7 @@ int PostLib::Rectangle::PostScriptRepresentation(void)
     
     free(replacedRectPSCode);
     
-    return 0;
+    return this->PostScriptCode;
 }
 
 std::string PostLib::Rectangle::postScript(void) const

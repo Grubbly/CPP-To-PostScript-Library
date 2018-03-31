@@ -42,7 +42,7 @@ PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radiu
     this->centerPoint = centerPoint;*/
 }
 
-int PostLib::Circle::PostScriptRepresentation(void)
+std::string PostLib::Circle::PostScriptRepresentation(void)
 {
     char* replacedCirclePSCode;
     const char* blankCirclePSCode = "/renderCircle {\n\
@@ -61,7 +61,7 @@ int PostLib::Circle::PostScriptRepresentation(void)
     
     //free(replacedCirclePSCode);
     
-    return 0;
+    return this->PostScriptCode;
 }
 
 std::string PostLib::Circle::postScript() const

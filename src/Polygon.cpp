@@ -10,15 +10,16 @@
 
 #include "Polygon.h"
 
-PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 48,48 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
+PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 5,4 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
 {
 }
 
-PostLib::Polygon::Polygon(unsigned int numSides, double sideLength) : Shape({ 50,50 }, { { 48,48 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
+//TODO BOUNDING BOX
+PostLib::Polygon::Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength) : Shape(centerPoint, { { 5,4 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
 {
 }
 
-int PostLib::Polygon::PostScriptRepresentation()
+std::string PostLib::Polygon::PostScriptRepresentation()
 {
 	this->PostScriptCode = "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
 		newpath\n\n\
@@ -38,7 +39,7 @@ int PostLib::Polygon::PostScriptRepresentation()
 		closepath\n\n\
 	} def";
 
-	return 0;
+	return this->PostScriptCode;
 }
 
 int PostLib::Polygon::getNumSides() const

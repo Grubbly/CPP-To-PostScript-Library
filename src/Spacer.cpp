@@ -26,7 +26,7 @@ PostLib::Spacer::Spacer(PostLib::PostScriptPoint centerPoint, unsigned int width
     this->centerPoint             = centerPoint;
 }
 
-int PostLib::Spacer::PostScriptRepresentation(void)
+std::string PostLib::Spacer::PostScriptRepresentation(void)
 {
     char* replacedSpacerPSCode;
     const char* blankSpacerPSCode = "/aSpace {\n\
@@ -48,7 +48,7 @@ int PostLib::Spacer::PostScriptRepresentation(void)
     
     free(replacedSpacerPSCode);
     
-    return 0;
+    return this->PostScriptCode;
 }
 
 std::string PostLib::Spacer::postScript(void) const

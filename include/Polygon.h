@@ -20,9 +20,9 @@ namespace PostLib {
 	{
 	public:
 		Polygon();
-		Polygon(unsigned int numSides, double sideLength);
+		Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength);
 
-		virtual int		   PostScriptRepresentation() override;
+		virtual std::string		   PostScriptRepresentation() override;
 
 		int				   getNumSides() const;
 		double			   getSideLength() const;
