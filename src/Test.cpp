@@ -105,12 +105,11 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
 TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
 {
     PostLib::Rectangle             objRect;
-    PostLib::PrimitiveRectangle    aRect;
     PostLib::PostScriptPoint       aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){120, 120};
+    aPoint = {120, 120};
     
-    objRect = Rectangle(aPoint, 100, 100);
+    objRect = PostLib::Rectangle(aPoint, 100, 100);
     
     objRect.PostScriptRepresentation();
     psCommands.append(objRect.postScript());
@@ -119,10 +118,9 @@ TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
 TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
 {
     PostLib::Spacer                objRect;
-    PostLib::PrimitiveRectangle    aRect;
     PostLib::PostScriptPoint       aPoint;
     
-    aPoint = (PostLib::PostScriptPoint){120, 120};
+    aPoint = {120, 120};
     
     objRect = Spacer(aPoint, 150, 150);
     

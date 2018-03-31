@@ -59,7 +59,7 @@ int PostLib::Circle::PostScriptRepresentation(void)
     sprintf(replacedCirclePSCode, blankCirclePSCode, this->centerPoint.x, this->centerPoint.y, this->radius);
     this->PostScriptCode = std::string(replacedCirclePSCode);
     
-    //free(replacedCirclePSCode);
+    free(replacedCirclePSCode);
     
     return 0;
 }

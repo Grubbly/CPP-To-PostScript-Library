@@ -20,11 +20,23 @@ PostLib::Polygon::Polygon(unsigned int numSides, double sideLength) : Shape({ 50
 
 int PostLib::Polygon::PostScriptRepresentation()
 {
-	const char* blankPolygonPSCode = "/renderPolygon {\n\
-	2 dict begin\n\
-		/drawPosX %d def\n\
-		/drawPosY %d def\n\
-		\n";
+	this->PostScriptCode = "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 72 				  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def";
 
 	return 0;
 }
