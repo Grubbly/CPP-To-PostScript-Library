@@ -5171,6 +5171,9 @@ namespace Catch {
 #include <sstream>
 #include <vector>
 
+#include <assert.h>
+#include <crtdbg.h>
+
 #ifndef CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH
 #define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH 80
 #endif
@@ -5486,6 +5489,8 @@ namespace Catch { namespace clara { namespace TextFlow {
 #include <memory>
 #include <set>
 #include <algorithm>
+#include <assert.h>
+#include <cassert>
 
 #if !defined(CATCH_PLATFORM_WINDOWS) && ( defined(WIN32) || defined(__WIN32__) || defined(_WIN32) || defined(_MSC_VER) )
 #define CATCH_PLATFORM_WINDOWS

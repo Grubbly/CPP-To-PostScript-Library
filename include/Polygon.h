@@ -14,12 +14,26 @@
 #ifndef POLYGON_H
 #define POLYGON_H
 
-class Polygon : PostLib::Shape
-{
-public:
+namespace PostLib {
 
-protected:
+	class Polygon : public PostLib::Shape
+	{
+	public:
+		Polygon();
+		Polygon(unsigned int numSides, double sideLength);
 
-};
+		virtual int		   PostScriptRepresentation() override;
+
+		int				   getNumSides() const;
+		double			   getSideLength() const;
+
+	private:
+		int _numSides;
+		double _sideLength;
+
+		unsigned int	  calculateRegularAngle(unsigned int numSides);
+	};
+
+}
 
 #endif // !POLYGON_H
