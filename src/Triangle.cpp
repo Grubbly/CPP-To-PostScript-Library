@@ -10,8 +10,8 @@ PostLib::Triangle::Triangle(PostLib::PostScriptPoint centerPoint, double sideLen
 std::string PostLib::Triangle::PostScriptRepresentation(void)
 {
 	return std::to_string(bounds().origin.x - (0.5*bounds().size.width)) +
-			" " + std::to_string(bounds().origin.y - (0.5*bounds().size.height))
-			+ " 3 " + std::to_string(getSideLength()) + " ngon\n";
+			" inch " + std::to_string(bounds().origin.y - (0.5*bounds().size.height))
+			+ " inch 3 " + std::to_string(getSideLength()) + " inch ngon\n";
 }
 
 std::string PostLib::Triangle::postScript(void) const

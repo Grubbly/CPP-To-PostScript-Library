@@ -239,7 +239,7 @@ TEST_CASE("File Output - Square", "[Square I/O]")
 	const double SIDE_LENGTH = 1;
 	PostLib::PostScriptPoint aPoint = { 5, 4 };
 
-	PostLib::Triangle aSquare(aPoint, SIDE_LENGTH);
+	PostLib::Square aSquare(aPoint, SIDE_LENGTH);
 
 	std::ofstream outFile("squareTest.txt", std::ofstream::trunc);
 
