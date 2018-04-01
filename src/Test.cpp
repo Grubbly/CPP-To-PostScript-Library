@@ -98,8 +98,9 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
     
     aCircle = Circle(aPoint, 12);
     
-    aCircle.PostScriptRepresentation();
-    psCommands.append(aCircle.postScript());
+	//TODO: Refactor circle PS code
+    //aCircle.PostScriptRepresentation();
+    //psCommands.append(aCircle.postScript());
 }
 
 TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
@@ -165,6 +166,18 @@ TEST_CASE("Polygon Side Lengths and Number of Sides (2 param Ctor)", "[POLYGON]"
 
 	REQUIRE(aPoly.getNumSides() == SIDES);
 	REQUIRE(aPoly.getSideLength() == SIDE_LENGTH);
+}
+
+TEST_CASE("Polygon Side Bounding Box Lengths", "[POLYGON]")
+{
+	const unsigned int SIDES = 8;
+	const double SIDE_LENGTH = 4;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	PostLib::Polygon aPoly(aPoint, SIDES, SIDE_LENGTH);
+
+	REQUIRE(aPoly.bounds().size.width != 4);
+	REQUIRE(aPoly.bounds().size.height != 4);
 }
 
 TEST_CASE("File Output - Polygon", "[Polygon I/O]")

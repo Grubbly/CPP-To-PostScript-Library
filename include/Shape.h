@@ -15,13 +15,13 @@
 namespace PostLib {
     
     typedef struct{
-        signed int x;
-        signed int y;
+        double x;
+        double y;
     }PostScriptPoint;
     
     typedef struct{
-        signed int width;
-        signed int height;
+        double width;
+        double height;
     }Size;
     
     typedef struct{

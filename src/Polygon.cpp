@@ -17,6 +17,7 @@ PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 5,4 } ,{ 4,4 } }), _numSides(
 //TODO BOUNDING BOX
 PostLib::Polygon::Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength) : Shape(centerPoint, { { 5,4 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
 {
+	setBounds(calculatePrimitiveRectangle(numSides, sideLength, centerPoint));
 }
 
 std::string PostLib::Polygon::PostScriptRepresentation()
@@ -52,7 +53,26 @@ double PostLib::Polygon::getSideLength() const
 	return _sideLength;
 }
 
-unsigned int PostLib::Polygon::calculateRegularAngle(unsigned int numSides)
+PostLib::PrimitiveRectangle PostLib::Polygon::calculatePrimitiveRectangle(int numSides, double sideLength, PostLib::PostScriptPoint centerPoint) const
 {
-	return ((numSides - 2) * 180) / numSides;
-}
+	double height = 0;
+	double width = 0;
+
+	if (numSides % 2 == 1)
+	{
+		height = sideLength*(1 + std::cos(M_PI / numSides)) / (2 * std::sin(M_PI / numSides));
+		width = (sideLength * std::sin(M_PI * (numSides - 1) / (2*numSides))) / (std::sin(M_PI / numSides));
+	}
+	else if (numSides % 4 == 0)
+	{
+		height = sideLength * (std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+		width = (sideLength * std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+	}
+	else
+	{
+		height = sideLength * (std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+		width = sideLength / (std::sin(M_PI / numSides));
+	}
+
+	return { { (centerPoint.x - (width / 2)), (centerPoint.y - (height / 2)) } , { width, height } };
+};

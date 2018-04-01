@@ -8,8 +8,10 @@
  ------------------------------------------------------*/
 
 #include <string>
-
+#include <cmath>
 #include "shape.h"
+
+# define M_PI           3.14159265358979323846
 
 #ifndef POLYGON_H
 #define POLYGON_H
@@ -31,7 +33,7 @@ namespace PostLib {
 		int _numSides;
 		double _sideLength;
 
-		unsigned int	  calculateRegularAngle(unsigned int numSides);
+		PrimitiveRectangle			calculatePrimitiveRectangle(int numSides, double sideLength, PostLib::PostScriptPoint centerPoint) const;
 	};
 
 }
