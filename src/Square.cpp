@@ -11,7 +11,7 @@ std::string PostLib::Square::PostScriptRepresentation(void)
 {
 	return std::to_string(bounds().origin.x - (0.5*bounds().size.width)) +
 			" " + std::to_string(bounds().origin.y - (0.5*bounds().size.height))
-			+ " 4 " + std::to_string(getSideLength());
+			+ " 4 " + std::to_string(getSideLength()) + " ngon\n";
 }
 
 std::string PostLib::Square::postScript(void) const

@@ -19,12 +19,23 @@
 #include "Rectangle.h"
 #include "Spacer.h"
 #include "Polygon.h"
+#include "Triangle.h"
+#include "Square.h"
 
 static std::string psCommands;
 
 using namespace PostLib;
 
 #define OUTPUT_FILE 1
+
+std::string PSPolyHeader()
+{
+	PostLib::Polygon aPoly = { {5,4}, 5, 1 };
+	std::string header = "%!PS-Adobe-3.0\n%%Pages: 1\n%%EndComments\n\n\n\n \
+						 /inch {72 mul} def\n\n" + aPoly.PostScriptRepresentation() \
+						 + "\n\n\n" + "%%Page: 1 1\n\n";
+	return header;
+}
 
 TEST_CASE("Shape Accessors", "[SHAPE]")
 {
@@ -193,17 +204,50 @@ TEST_CASE("File Output - Polygon", "[Polygon I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << "%!PS-Adobe-3.0" << std::endl;
-	outFile << "%%Pages: 1"     << std::endl;
-	outFile << "%%EndComments"  << std::endl;
-	outFile << "\n\n\n /inch {72 mul} def\n\n";
 
-	outFile << aPoly.PostScriptRepresentation() << "\n\n\n";
-	outFile << "%%Page: 1 1\n\n";
+	outFile << PSPolyHeader();
 
 	outFile << "gsave" << std::endl;
 	outFile << aPoly.bounds().origin.x << " inch " << aPoly.bounds().origin.y << " inch "\
 			<< aPoly.getNumSides() << " " << aPoly.getSideLength() << " inch ngon" << std::endl;
+	outFile << "fill" << std::endl;
+	outFile << "grestore" << std::endl;
+	outFile << "showpage" << std::endl;
+}
+
+TEST_CASE("File Output - Triangle", "[Triangle I/O]")
+{
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	PostLib::Triangle aTri(aPoint, SIDE_LENGTH);
+
+	std::ofstream outFile("triangleTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSPolyHeader();
+	outFile << "gsave" << std::endl;
+	outFile << aTri.PostScriptRepresentation();
+	outFile << "fill" << std::endl;
+	outFile << "grestore" << std::endl;
+	outFile << "showpage" << std::endl;
+}
+
+TEST_CASE("File Output - Square", "[Square I/O]")
+{
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	PostLib::Triangle aSquare(aPoint, SIDE_LENGTH);
+
+	std::ofstream outFile("squareTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSPolyHeader();
+	outFile << "gsave" << std::endl;
+	outFile << aSquare.PostScriptRepresentation();
 	outFile << "fill" << std::endl;
 	outFile << "grestore" << std::endl;
 	outFile << "showpage" << std::endl;
