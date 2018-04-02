@@ -24,6 +24,7 @@
 #include "Layered.h"
 #include "Vertical.h"
 #include "Horizontal.h"
+#include "Rotated.h"
 
 static std::string psCommands;
 
@@ -78,6 +79,14 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
 
 	REQUIRE(bCircle.bounds().origin.x == bPoint.x - bRADIUS);
 	REQUIRE(bCircle.bounds().origin.y == bPoint.y - bRADIUS);
+}
+
+TEST_CASE("Rotated Shape", "[ROTATION]")
+{
+    PostLib::PostScriptPoint aPoint = {144, 144};
+    unsigned int w = 20, h = 10;
+    PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_180);
+    rotatedShape.PostScriptRepresentation();
 }
 
 TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")

@@ -31,6 +31,8 @@ namespace PostLib {
     
     
     class Shape {
+        friend class RotatedShape;
+        
     public:
         Shape();
         Shape(PostLib::PostScriptPoint aCenter, PostLib::PrimitiveRectangle aBoundingBox);
