@@ -51,7 +51,7 @@ void PostLib::Shape::setPostScript(const std::string & postScript)
 	this->PostScriptCode = postScript;
 }
 
-std::string PostLib::Shape::postScript(void) const
+std::string PostLib::Shape::postScript(void)
 {
 	return this->PostScriptCode;
 }

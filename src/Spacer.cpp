@@ -51,7 +51,7 @@ std::string PostLib::Spacer::PostScriptRepresentation(void)
     return this->PostScriptCode;
 }
 
-std::string PostLib::Spacer::postScript(void) const
+std::string PostLib::Spacer::postScript(void)
 {
     return this->PostScriptCode;
 }

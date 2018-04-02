@@ -24,7 +24,7 @@ namespace PostLib {
 		Layered(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<std::unique_ptr<Shape>> & shapeList);
 
 		virtual std::string PostScriptRepresentation(void) override;
-		std::string         postScript(void) const;
+		std::string         postScript(void);
 	
 	private:
 		std::initializer_list<std::unique_ptr<Shape>> _shapeList;

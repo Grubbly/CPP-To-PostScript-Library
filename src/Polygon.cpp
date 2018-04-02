@@ -18,7 +18,7 @@ PostLib::Polygon::Polygon() : Shape({ 5, 4 }, { { 5,4 } ,{ 4,4 } }), _numSides(3
 PostLib::Polygon::Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength) : Shape(centerPoint, { { 5,4 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
 {
 	setBounds(calculatePrimitiveRectangle(numSides, sideLength, centerPoint));
-	setPostScript(getPostScript());
+	setPostScript(postScript());
 }
 
 std::string PostLib::Polygon::PostScriptRepresentation()
@@ -32,7 +32,7 @@ std::string PostLib::Polygon::PostScriptRepresentation()
 		/regularAngle 360 sides div def\n\n\
 		xPosOrigin yPosOrigin 	moveto\n\
 		sideLen sideLen 	  	scale\n\
-		1 72 				  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
 		1 1 sides{\n\
 		/vertex exch def\n\
 		/theta vertex regularAngle mul def\n\
@@ -43,12 +43,14 @@ std::string PostLib::Polygon::PostScriptRepresentation()
 
 	return this->PostScriptCode;
 }
-
-std::string PostLib::Polygon::getPostScript(void) const
+//TODO SQUARE TRIANGLE AND POLY ORIGIN POINT IN POSTSCRIPT
+std::string PostLib::Polygon::postScript(void)
 {
-	return std::to_string(bounds().origin.x - (0.5*bounds().size.width)) +
-		" inch " + std::to_string(bounds().origin.y - (0.5*bounds().size.height))
-		+ " inch " + std::to_string(getNumSides()) + " " + std::to_string(getSideLength()) + " inch ngon\n";
+	/*return std::to_string(bounds().origin.x) + " inch " + std::to_string(bounds().origin.y)
+		+ " inch " + std::to_string(getNumSides()) + " " + std::to_string(getSideLength()) + " inch ngon\n";*/
+	setPostScript(std::to_string(center().x) + " inch " + std::to_string(center().y)
+		+ " inch " + std::to_string(getNumSides()) + " " + std::to_string(getSideLength()) + " inch ngon\n");
+	return this->PostScriptCode;
 }
 
 int PostLib::Polygon::getNumSides() const
@@ -78,7 +80,7 @@ PostLib::PrimitiveRectangle PostLib::Polygon::calculatePrimitiveRectangle(int nu
 	}
 	else
 	{
-		height = sideLength * (std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+		height = sideLength * ((std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides)));
 		width = sideLength / (std::sin(M_PI / numSides));
 	}
 

@@ -64,7 +64,7 @@ std::string PostLib::Circle::PostScriptRepresentation(void)
     return this->PostScriptCode;
 }
 
-std::string PostLib::Circle::postScript() const
+std::string PostLib::Circle::postScript()
 {
     return this->PostScriptCode;
 }

@@ -44,7 +44,7 @@ namespace PostLib {
 		void			   setPostScript(const std::string & postScript);
         
 		virtual std::string		   PostScriptRepresentation(void)=0;
-		std::string		   postScript(void) const;
+		virtual std::string		   postScript(void)=0;
         
     protected:
         PostScriptPoint    centerPoint;

@@ -52,7 +52,7 @@ std::string PostLib::Rectangle::PostScriptRepresentation(void)
     return this->PostScriptCode;
 }
 
-std::string PostLib::Rectangle::postScript(void) const
+std::string PostLib::Rectangle::postScript(void)
 {
     return this->PostScriptCode;
 }
