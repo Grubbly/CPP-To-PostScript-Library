@@ -45,3 +45,13 @@ void PostLib::Shape::setBounds(const PrimitiveRectangle &newBounds)
 {
     this->boundingBox = newBounds;
 }
+
+void PostLib::Shape::setPostScript(const std::string & postScript)
+{
+	this->PostScriptCode = postScript;
+}
+
+std::string PostLib::Shape::postScript(void) const
+{
+	return this->PostScriptCode;
+}

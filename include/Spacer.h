@@ -23,7 +23,7 @@ namespace PostLib {
         Spacer(PostLib::PostScriptPoint centerPoint, unsigned int width, unsigned int height);
         
         virtual std::string PostScriptRepresentation(void) override;
-        std::string         postScript(void) const;
+        std::string         postScript(void) const;;
         
     protected:
     };

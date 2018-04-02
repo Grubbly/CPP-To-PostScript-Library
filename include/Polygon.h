@@ -25,6 +25,7 @@ namespace PostLib {
 		Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength);
 
 		virtual std::string		   PostScriptRepresentation() override;
+		std::string				   getPostScript(void) const;
 
 		int				   getNumSides() const;
 		double			   getSideLength() const;

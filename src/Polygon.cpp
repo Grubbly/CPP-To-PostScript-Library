@@ -10,7 +10,7 @@
 
 #include "Polygon.h"
 
-PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 5,4 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
+PostLib::Polygon::Polygon() : Shape({ 5, 4 }, { { 5,4 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
 {
 }
 
@@ -18,6 +18,7 @@ PostLib::Polygon::Polygon() : Shape({ 50,50 }, { { 5,4 } ,{ 4,4 } }), _numSides(
 PostLib::Polygon::Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength) : Shape(centerPoint, { { 5,4 } ,{ 4,4 } }), _numSides((int)numSides), _sideLength(sideLength)
 {
 	setBounds(calculatePrimitiveRectangle(numSides, sideLength, centerPoint));
+	setPostScript(getPostScript());
 }
 
 std::string PostLib::Polygon::PostScriptRepresentation()
@@ -41,6 +42,13 @@ std::string PostLib::Polygon::PostScriptRepresentation()
 	} def";
 
 	return this->PostScriptCode;
+}
+
+std::string PostLib::Polygon::getPostScript(void) const
+{
+	return std::to_string(bounds().origin.x - (0.5*bounds().size.width)) +
+		" inch " + std::to_string(bounds().origin.y - (0.5*bounds().size.height))
+		+ " inch " + std::to_string(getNumSides()) + " " + std::to_string(getSideLength()) + " inch ngon\n";
 }
 
 int PostLib::Polygon::getNumSides() const

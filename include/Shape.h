@@ -41,10 +41,12 @@ namespace PostLib {
         PrimitiveRectangle bounds(void) const;
         void			   setCenter(const PostScriptPoint& newCenter);
         void			   setBounds(const PrimitiveRectangle &newBounds);
+		void			   setPostScript(const std::string & postScript);
         
-		virtual std::string		   PostScriptRepresentation(void) = 0;
+		virtual std::string		   PostScriptRepresentation(void)=0;
+		std::string		   postScript(void) const;
         
-    protected:
+    public:
         PostScriptPoint    centerPoint;
         PrimitiveRectangle boundingBox;
         std::string        PostScriptCode;

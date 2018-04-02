@@ -21,6 +21,8 @@
 #include "Polygon.h"
 #include "Triangle.h"
 #include "Square.h"
+#include "Layered.h"
+#include "Vertical.h"
 
 static std::string psCommands;
 
@@ -248,6 +250,31 @@ TEST_CASE("File Output - Square", "[Square I/O]")
 	outFile << PSPolyHeader();
 	outFile << "gsave" << std::endl;
 	outFile << aSquare.PostScriptRepresentation();
+	outFile << "fill" << std::endl;
+	outFile << "grestore" << std::endl;
+	outFile << "showpage" << std::endl;
+}
+
+TEST_CASE("File Output - Layered", "[Layered I/O]")
+{
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	std::unique_ptr<Shape> testPoly = std::move(std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 3, 1)));
+
+	PostLib::Layered aLayered(aPoint, {std::move(std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 3, 1))),
+									   std::move(std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 4, 1))), 
+									   std::move(std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 5, 1))),
+									   std::move(std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 7, 1))) });
+
+	std::ofstream outFile("layeredTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSPolyHeader();
+	outFile << "gsave" << std::endl;
+	//outFile << (*testPoly).postScript();
+	outFile << aLayered.PostScriptRepresentation();
 	outFile << "fill" << std::endl;
 	outFile << "grestore" << std::endl;
 	outFile << "showpage" << std::endl;

@@ -21,13 +21,13 @@ namespace PostLib {
 	{
 	public:
 		Layered();
-		Layered(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<Shape> & shapeList);
+		Layered(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<std::unique_ptr<Shape>> & shapeList);
 
 		virtual std::string PostScriptRepresentation(void) override;
 		std::string         postScript(void) const;
 	
 	private:
-		std::vector<std::unique_ptr<Shape>> _shapeList;
+		std::initializer_list<std::unique_ptr<Shape>> _shapeList;
 	};
 }
 
