@@ -18,7 +18,7 @@ PostLib::Layered::Layered(const PostLib::PostScriptPoint & centerPoint, const st
 		item->setBounds({ centerPoint, {item->bounds().size.width, item->bounds().size.height} });
 	}
 
-	double centerDifferenceX;
+//	double centerDifferenceX;
 	double centerDifferenceY;
 
 	//TODO HORIZONTAL SHIFT

@@ -30,7 +30,6 @@ namespace PostLib {
     }PrimitiveRectangle;
     
     
-    
     class Shape {
     public:
         Shape();

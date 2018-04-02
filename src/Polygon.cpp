@@ -71,17 +71,21 @@ PostLib::PrimitiveRectangle PostLib::Polygon::calculatePrimitiveRectangle(int nu
 	if (numSides % 2 == 1)
 	{
 		height = sideLength*(1 + std::cos(M_PI / numSides)) / (2 * std::sin(M_PI / numSides));
-		width = (sideLength * std::sin(M_PI * (numSides - 1) / (2*numSides))) / (std::sin(M_PI / numSides));
+		width = sideLength * (1 / std::sin(M_PI / numSides));
+		//width = (sideLength * std::sin(M_PI * (numSides - 1) / (2*numSides))) / (std::sin(M_PI / numSides));
 	}
 	else if (numSides % 4 == 0)
 	{
 		height = sideLength * (std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
-		width = (sideLength * std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+		//width = (sideLength * std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
+		width = sideLength * (1 / std::sin(M_PI / numSides));
 	}
 	else
 	{
 		height = sideLength * ((std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides)));
-		width = sideLength / (std::sin(M_PI / numSides));
+		//width = sideLength / (std::sin(M_PI / numSides));
+		//width = sideLength * (1 / std::sin(M_PI / numSides));
+		width = sideLength * (1 / std::sin(M_PI / numSides));
 	}
 
 	return { { (centerPoint.x - (width / 2)), (centerPoint.y - (height / 2)) } , { width, height } };
