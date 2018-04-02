@@ -297,3 +297,23 @@ TEST_CASE("File Output - Layered2", "[Layered I/O]")
 	outFile << PSPolyHeader();
 	outFile << aLayered.PostScriptRepresentation();
 }
+
+TEST_CASE("File Output - Vertical", "[Vertical I/O]")
+{
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 5, 4 };
+
+	std::initializer_list<std::unique_ptr<Shape>> testPoly = { std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 3, 1)),
+		std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 4, 1)),
+		std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 5, 1)),
+		std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 7, 1)) };
+
+	PostLib::Vertical aLayered(aPoint, testPoly);
+
+	std::ofstream outFile("verticalTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSPolyHeader();
+	outFile << aLayered.PostScriptRepresentation();
+}
