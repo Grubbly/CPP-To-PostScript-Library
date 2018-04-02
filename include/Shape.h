@@ -46,7 +46,7 @@ namespace PostLib {
 		virtual std::string		   PostScriptRepresentation(void)=0;
 		std::string		   postScript(void) const;
         
-    public:
+    protected:
         PostScriptPoint    centerPoint;
         PrimitiveRectangle boundingBox;
         std::string        PostScriptCode;
