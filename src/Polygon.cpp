@@ -10,6 +10,14 @@
 
 #include "Polygon.h"
 
+static inline double sind(double inAngle)
+{
+    double radAngle;
+    
+    radAngle = inAngle * (M_PI/180.0);
+    return     sin(radAngle) * (M_PI/180);
+}
+
 PostLib::Polygon::Polygon() : Shape({ 5, 4 }, { { 5,4 } ,{ 4,4 } }), _numSides(3), _sideLength(1)
 {
 }
@@ -40,7 +48,7 @@ std::string PostLib::Polygon::PostScriptRepresentation()
 		} for\n\
 		closepath\n\n\
 	} def";
-
+    
 	return this->PostScriptCode;
 }
 //TODO SQUARE TRIANGLE AND POLY ORIGIN POINT IN POSTSCRIPT
@@ -65,28 +73,16 @@ double PostLib::Polygon::getSideLength() const
 
 PostLib::PrimitiveRectangle PostLib::Polygon::calculatePrimitiveRectangle(int numSides, double sideLength, PostLib::PostScriptPoint centerPoint) const
 {
-	double height = 0;
-	double width = 0;
-
-	if (numSides % 2 == 1)
-	{
-		height = sideLength*(1 + std::cos(M_PI / numSides)) / (2 * std::sin(M_PI / numSides));
-		width = sideLength * (1 / std::sin(M_PI / numSides));
-		//width = (sideLength * std::sin(M_PI * (numSides - 1) / (2*numSides))) / (std::sin(M_PI / numSides));
-	}
-	else if (numSides % 4 == 0)
-	{
-		height = sideLength * (std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
-		//width = (sideLength * std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides));
-		width = sideLength * (1 / std::sin(M_PI / numSides));
-	}
-	else
-	{
-		height = sideLength * ((std::cos(M_PI / numSides)) / (std::sin(M_PI / numSides)));
-		//width = sideLength / (std::sin(M_PI / numSides));
-		//width = sideLength * (1 / std::sin(M_PI / numSides));
-		width = sideLength * (1 / std::sin(M_PI / numSides));
-	}
-
-	return { { (centerPoint.x - (width / 2)), (centerPoint.y - (height / 2)) } , { width, height } };
+     PostLib::PrimitiveRectangle boundingRect;
+     double apothem;
+     double circumradius;
+    
+     circumradius = (sideLength/(2*sind(180.0/((double)numSides))));
+     apothem = circumradius*cos((M_PI/((double)numSides)));
+     
+     boundingRect.size.width = boundingRect.size.height = apothem;
+     boundingRect.origin.x = (centerPoint.x-(0.5*apothem));
+     boundingRect.origin.y = (centerPoint.y-(0.5*apothem));
+     
+     return boundingRect;
 };
