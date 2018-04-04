@@ -87,6 +87,7 @@ TEST_CASE("Rotated Shape", "[ROTATION]")
     unsigned int w = 20, h = 10;
     PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_180);
     rotatedShape.PostScriptRepresentation();
+    psCommands.append(rotatedShape.PostScriptRepresentation());
 }
 
 TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")
@@ -127,15 +128,15 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
 
 TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
 {
-    PostLib::Rectangle             objRect;
-    PostLib::PostScriptPoint       aPoint;
-    
-    aPoint = {120, 120};
-    
-    objRect = PostLib::Rectangle(aPoint, 100, 100);
-    
-    objRect.PostScriptRepresentation();
-    psCommands.append(objRect.postScript());
+//    PostLib::Rectangle             objRect;
+//    PostLib::PostScriptPoint       aPoint;
+//    
+//    aPoint = {120, 120};
+//    
+//    objRect = PostLib::Rectangle(aPoint, 100, 100);
+//    
+//    objRect.PostScriptRepresentation();
+//    psCommands.append(objRect.postScript());
 }
 
 TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
@@ -158,7 +159,7 @@ TEST_CASE("File Output - Circle", "[Circle I/O]")
 #if OUTPUT_FILE
     outFile.open("/file.ps");
     outFile << "%!\n";
-    outFile << psCommands << "\n" << "renderCircle\n\naRect\n\naSpace\n\n";
+    outFile << psCommands << "\n" << /*"renderCircle"\n\naRect\n\n*/"aSpace\n\n";
 
     
     outFile << "showpage\n\n";

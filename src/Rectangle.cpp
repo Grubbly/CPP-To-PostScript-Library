@@ -31,11 +31,11 @@ std::string PostLib::Rectangle::PostScriptRepresentation(void)
     const char* blankRectPSCode = "/aRect {\n\
     newpath\n\
     0 0 0 setrgbcolor\n\
-    /lowerLeftX %d def\n\
-    /lowerLeftY %d def\n\
-    /width %d def\n\
-    /height %d def\n\
-    width height moveto\n\
+    /lowerLeftX %lf def\n\
+    /lowerLeftY %lf def\n\
+    /width %lf def\n\
+    /height %lf def\n\
+    lowerLeftX lowerLeftY moveto\n\
     0 height rlineto\n\
     width 0 rlineto\n\
     0 -1 height mul rlineto\n\

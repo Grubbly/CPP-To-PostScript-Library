@@ -26,18 +26,19 @@ std::string PostLib::RotatedShape::PostScriptRepresentation(void)
     std::string   plainFunctionName;
     const char *aStr = "\n\ngsave\n\
                         %lf %lf translate\n\
-                        %lf rotate\n\
+                        %d rotate\n\
                         %lf %lf translate\n\
                         %s\n\
-                        stroke";
-    char *replacedStr = (char*)malloc(strlen(aStr));
+                        stroke\n\
+                        grestore\n";
+    char *replacedStr = (char*)malloc(strlen(aStr)*2);
     
     plainShapePS = theShape->PostScriptRepresentation();
-    plainFunctionName = plainFunctionName.substr(1, plainShapePS.find(" "));
+    plainFunctionName = plainShapePS.substr(1, plainShapePS.find("{")-2);
     
     workingCodeStr.append(plainShapePS);
     workingCodeStr.append("\n\n");
-    sprintf(replacedStr, aStr, theShape->centerPoint.x, theShape->centerPoint.y, this->rotationAngle, (-1*theShape->centerPoint.x), (-1*theShape->centerPoint.y), plainFunctionName.c_str());
+    sprintf(replacedStr, aStr, 1*theShape->centerPoint.x, 1*theShape->centerPoint.y, this->rotationAngle, (-1*theShape->centerPoint.x), (-1*theShape->centerPoint.y), plainFunctionName.c_str());
     
     workingCodeStr.append(replacedStr);
     this->PostScriptCode = workingCodeStr;
@@ -45,6 +46,7 @@ std::string PostLib::RotatedShape::PostScriptRepresentation(void)
     
     return workingCodeStr;
 }
+
 
 std::string PostLib::RotatedShape::postScript(void)
 {
