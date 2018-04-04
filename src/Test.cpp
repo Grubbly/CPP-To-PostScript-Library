@@ -25,6 +25,7 @@
 #include "Vertical.h"
 #include "Horizontal.h"
 #include "Rotated.h"
+#include "ScaleShape.h"
 
 static std::string psCommands;
 
@@ -85,9 +86,18 @@ TEST_CASE("Rotated Shape", "[ROTATION]")
 {
     PostLib::PostScriptPoint aPoint = {144, 144};
     unsigned int w = 20, h = 10;
-    PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_180);
+    PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_90);
     rotatedShape.PostScriptRepresentation();
     psCommands.append(rotatedShape.PostScriptRepresentation());
+}
+
+TEST_CASE("Scaled Shape", "[SCALE]")
+{
+    PostLib::PostScriptPoint aPoint = {144, 144};
+    unsigned int w = 20, h = 10;
+    PostLib::Scaled scaledShape = PostLib::Scaled(new PostLib::Rectangle(aPoint, w, h), 2.0, 2.0);
+    scaledShape.PostScriptRepresentation();
+    psCommands.append(scaledShape.PostScriptRepresentation());
 }
 
 TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")

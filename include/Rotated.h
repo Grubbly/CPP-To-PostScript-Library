@@ -28,6 +28,7 @@ namespace PostLib{
         RotatedShape()  = default;
         RotatedShape(PostLib::Shape *passedShape, RotationAngleType passedAngle);
         ~RotatedShape() = default;
+#warning fix above line!!!
         
         std::string PostScriptRepresentation(void) override;
         std::string postScript(void) override;
