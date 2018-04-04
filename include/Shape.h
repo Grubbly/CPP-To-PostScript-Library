@@ -38,19 +38,19 @@ namespace PostLib {
         Shape(PostLib::PostScriptPoint aCenter, PostLib::PrimitiveRectangle aBoundingBox);
 		virtual ~Shape();
         
-        PostScriptPoint    center(void) const;
-        PrimitiveRectangle bounds(void) const;
-        void			   setCenter(const PostScriptPoint& newCenter);
-        void			   setBounds(const PrimitiveRectangle &newBounds);
-		void			   setPostScript(const std::string & postScript);
+        PostScriptPoint            center(void) const;
+        PrimitiveRectangle         bounds(void) const;
+        void                       setCenter(const PostScriptPoint& newCenter);
+        void                       setBounds(const PrimitiveRectangle &newBounds);
+		void                       setPostScript(const std::string & postScript);
         
 		virtual std::string		   PostScriptRepresentation(void)=0;
 		virtual std::string		   postScript(void)=0;
         
     protected:
-        PostScriptPoint    centerPoint;
-        PrimitiveRectangle boundingBox;
-        std::string        PostScriptCode;
+        PostScriptPoint            centerPoint;
+        PrimitiveRectangle         boundingBox;
+        std::string                PostScriptCode;
         
     };
     

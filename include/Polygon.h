@@ -29,14 +29,14 @@ namespace PostLib {
 		virtual std::string		   PostScriptRepresentation() override;
 		std::string				   postScript(void) override;
 
-		int				   getNumSides() const;
-		double			   getSideLength() const;
+		int                        getNumSides() const;
+		double                     getSideLength() const;
 
 	private:
-		int _numSides;
-		double _sideLength;
+		int                        _numSides;
+		double                     _sideLength;
 
-		PrimitiveRectangle			calculatePrimitiveRectangle(int numSides, double sideLength, PostLib::PostScriptPoint centerPoint) const;
+		PrimitiveRectangle		   calculatePrimitiveRectangle(int numSides, double sideLength, PostLib::PostScriptPoint centerPoint) const;
 	};
 
 }
