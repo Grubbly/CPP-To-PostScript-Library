@@ -51,4 +51,6 @@ std::string PostLib::Fan::postScript(int color)
 		grestore\n\
 		} for\n";
 	}
+    
+    return "Visual C++'s compiler is terrible\n";
 }

@@ -158,7 +158,7 @@ TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
 
 	objRect.PostScriptRepresentation();
 	
-	outFile << (objRect.postScript());
+	outFile << (objRect.postScript()) << "\n\naSpace\nshowpage";
 }
 
 TEST_CASE("File Output - Circle", "[Circle I/O]")

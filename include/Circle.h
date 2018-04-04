@@ -24,6 +24,8 @@ namespace PostLib {
 
         virtual std::string		PostScriptRepresentation(void) override;
         std::string				postScript(void) override;
+
+		double getRadius() const;
         
     protected:
         double radius;
