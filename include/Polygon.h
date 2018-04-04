@@ -11,7 +11,9 @@
 #include <cmath>
 #include "shape.h"
 
-# define M_PI           3.14159265358979323846
+#ifndef M_PI
+#define M_PI           3.14159265358979323846
+#endif
 
 #ifndef POLYGON_H
 #define POLYGON_H
@@ -25,7 +27,7 @@ namespace PostLib {
 		Polygon(PostLib::PostScriptPoint centerPoint, unsigned int numSides, double sideLength);
 
 		virtual std::string		   PostScriptRepresentation() override;
-		std::string				   postScript(void);
+		std::string				   postScript(void) override;
 
 		int				   getNumSides() const;
 		double			   getSideLength() const;

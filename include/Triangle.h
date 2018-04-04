@@ -23,7 +23,7 @@ namespace PostLib {
 		Triangle(PostLib::PostScriptPoint centerPoint, double sideLength);
 
 		virtual std::string PostScriptRepresentation(void) override;
-		std::string         postScript(void);
+		std::string         postScript(void) override;
 	};
 
 }

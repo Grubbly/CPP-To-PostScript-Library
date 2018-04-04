@@ -23,7 +23,7 @@ namespace PostLib {
         Rectangle(PostLib::PostScriptPoint centerPoint, unsigned int width, unsigned int height);
         
 		virtual std::string PostScriptRepresentation(void) override;
-        std::string         postScript(void);
+        std::string         postScript(void) override;
         
     protected:
     };
