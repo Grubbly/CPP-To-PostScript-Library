@@ -20,13 +20,15 @@ namespace PostLib {
     {
     public:
         Circle();
-        Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius);
+        Circle(PostLib::PostScriptPoint centerPoint, double radius);
 
         virtual std::string		PostScriptRepresentation(void) override;
         std::string				postScript(void);
+
+		double getRadius() const;
         
     protected:
-        unsigned int radius;
+        double radius;
     };
     
 }

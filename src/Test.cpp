@@ -13,6 +13,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <functional>
+#include <vector>
 
 #include "Shape.h"
 #include "Circle.h"
@@ -26,39 +28,31 @@
 #include "Horizontal.h"
 #include "Rotated.h"
 #include "ScaleShape.h"
+#include "fan.h"
 
 static std::string psCommands;
+
 
 using namespace PostLib;
 
 #define OUTPUT_FILE 1
 
-std::string PSPolyHeader()
+//Helpter function for making PS files in tests
+std::string PSHeader(const std::vector<std::function<std::string()>> & functionCallList)
 {
 	PostLib::Polygon aPoly = { {5,4}, 5, 1 };
 	std::string header = "%!PS-Adobe-3.0\n%%Pages: 1\n%%EndComments\n\n\n\n \
-						 /inch {72 mul} def\n\n" + aPoly.PostScriptRepresentation() \
-						 + "\n\n\n" + "%%Page: 1 1\n\n";
-	return header;
-}
+						 /inch {72 mul} def\n\n";
 
-TEST_CASE("Shape Accessors", "[SHAPE]")
-{
-    /*PostLib::Shape              aShape;
-    PostLib::PrimitiveRectangle aRect;
-    PostLib::PostScriptPoint    aPoint;
-    
-    aPoint = {500, 500};
-    aRect = {aPoint, 200, 200};
-    
-    aShape.setCenter(aPoint);
-    aShape.setBounds(aRect);
-    
-    REQUIRE(aShape.bounds().origin.x == aPoint.x);
-    REQUIRE(aShape.bounds().origin.y == aPoint.y);
-    
-    REQUIRE(aShape.bounds().size.width == aRect.size.width);
-    REQUIRE(aShape.bounds().size.height == aRect.size.height);*/
+	for (const auto & PSSHapeFunction : functionCallList)
+	{
+		header += PSSHapeFunction();
+		header += "\n\n\n";
+	}
+
+	header += "%%Page: 1 1\n\n";
+
+	return header;
 }
 
 TEST_CASE("Circle Construction", "[CIRCLE]")
@@ -73,7 +67,7 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
     REQUIRE(aCircle.bounds().origin.x == aPoint.x - 12);
     REQUIRE(aCircle.bounds().origin.y == aPoint.y - 12);
 
-	const unsigned int bRADIUS = 42;
+	const double bRADIUS = 42;
 	PostScriptPoint bPoint = { 10, 10 };
 
 	Circle bCircle = { bPoint, bRADIUS };
@@ -82,27 +76,9 @@ TEST_CASE("Circle Construction", "[CIRCLE]")
 	REQUIRE(bCircle.bounds().origin.y == bPoint.y - bRADIUS);
 }
 
-TEST_CASE("Rotated Shape", "[ROTATION]")
-{
-    PostLib::PostScriptPoint aPoint = {144, 144};
-    unsigned int w = 20, h = 10;
-    PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_90);
-    rotatedShape.PostScriptRepresentation();
-    psCommands.append(rotatedShape.PostScriptRepresentation());
-}
-
-TEST_CASE("Scaled Shape", "[SCALE]")
-{
-    PostLib::PostScriptPoint aPoint = {144, 144};
-    unsigned int w = 20, h = 10;
-    PostLib::Scaled scaledShape = PostLib::Scaled(new PostLib::Rectangle(aPoint, w, h), 2.0, 2.0);
-    scaledShape.PostScriptRepresentation();
-    psCommands.append(scaledShape.PostScriptRepresentation());
-}
-
 TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")
 {
-	const unsigned int RADIUS = 42;
+	const double RADIUS = 42;
 	PostScriptPoint aPoint = { 20, 20 };
 
 	Circle aCircle = { aPoint, RADIUS };
@@ -113,7 +89,7 @@ TEST_CASE("Circle Bounding Box Origin", "[CIRCLE]")
 
 TEST_CASE("Circle Bounding Box Size", "[CIRCLE]")
 {
-	const unsigned int RADIUS = 42;
+	const double RADIUS = 42;
 	PostScriptPoint aPoint = { 10, 10 };
 
 	Circle aCircle = { aPoint, RADIUS };
@@ -131,35 +107,58 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
     
     aCircle = Circle(aPoint, 12);
     
-	//TODO: Refactor circle PS code
-    //aCircle.PostScriptRepresentation();
-    //psCommands.append(aCircle.postScript());
+	std::ofstream outFile("circleTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSHeader({std::bind(&Circle::PostScriptRepresentation, aCircle)});
+
+	REQUIRE(aCircle.PostScriptRepresentation() == "/renderCircle { %Parameter order: x, y, radius\n\
+		\n\
+		/radius   exch def\n\
+		/drawPosY exch def\n\
+		/drawPosX exch def\n\
+		\n\
+		drawPosX drawPosY radius 0 360 arc\n\
+		\n\
+	} def");
+
+	outFile << "gsave" << std::endl;
+	outFile << aCircle.postScript() << std::endl;
+	outFile << "stroke" << std::endl;
+	outFile << "grestore" << std::endl;
+	outFile << "showpage" << std::endl;
 }
 
 TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
 {
-//    PostLib::Rectangle             objRect;
-//    PostLib::PostScriptPoint       aPoint;
-//    
-//    aPoint = {120, 120};
-//    
-//    objRect = PostLib::Rectangle(aPoint, 100, 100);
-//    
-//    objRect.PostScriptRepresentation();
-//    psCommands.append(objRect.postScript());
-}
-
-TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
-{
-    PostLib::Spacer                objRect;
+    PostLib::Rectangle             objRect;
     PostLib::PostScriptPoint       aPoint;
     
     aPoint = {120, 120};
     
-    objRect = Spacer(aPoint, 150, 150);
+    objRect = PostLib::Rectangle(aPoint, 100, 100);
     
     objRect.PostScriptRepresentation();
     psCommands.append(objRect.postScript());
+}
+
+TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
+{
+	std::ofstream outFile("spaceTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	PostLib::Spacer                objRect;
+	PostLib::PostScriptPoint       aPoint;
+
+	aPoint = { 120, 120 };
+
+	objRect = Spacer(aPoint, 150, 150);
+
+	objRect.PostScriptRepresentation();
+	
+	outFile << (objRect.postScript());
 }
 
 TEST_CASE("File Output - Circle", "[Circle I/O]")
@@ -169,14 +168,12 @@ TEST_CASE("File Output - Circle", "[Circle I/O]")
 #if OUTPUT_FILE
     outFile.open("/file.ps");
     outFile << "%!\n";
-    outFile << psCommands << "\n" << /*"renderCircle"\n\naRect\n\n*/"aSpace\n\n";
+    outFile << psCommands << "\n" << "renderCircle\n\naRect\n\naSpace\n\n";
 
     
     outFile << "showpage\n\n";
     outFile.close();
 #else
-
-
     
 #endif
 }
@@ -226,12 +223,28 @@ TEST_CASE("File Output - Polygon", "[Polygon I/O]")
 
 	REQUIRE(outFile);
 
+	outFile << PSHeader({std::bind(&Polygon::PostScriptRepresentation, aPoly)});
 
-	outFile << PSPolyHeader();
+	REQUIRE(aPoly.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
 
 	outFile << "gsave" << std::endl;
-	outFile << aPoly.bounds().origin.x << " inch " << aPoly.bounds().origin.y << " inch "\
-			<< aPoly.getNumSides() << " " << aPoly.getSideLength() << " inch ngon" << std::endl;
+	outFile << aPoly.postScript();
 	outFile << "fill" << std::endl;
 	outFile << "grestore" << std::endl;
 	outFile << "showpage" << std::endl;
@@ -248,9 +261,28 @@ TEST_CASE("File Output - Triangle", "[Triangle I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
+	outFile << PSHeader({ std::bind(&Triangle::PostScriptRepresentation, aTri) });
+
+	REQUIRE(aTri.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
 	outFile << "gsave" << std::endl;
-	outFile << aTri.PostScriptRepresentation();
+	outFile << aTri.postScript();
 	outFile << "fill" << std::endl;
 	outFile << "grestore" << std::endl;
 	outFile << "showpage" << std::endl;
@@ -267,9 +299,28 @@ TEST_CASE("File Output - Square", "[Square I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
+	outFile << PSHeader({ { std::bind(&Square::PostScriptRepresentation, aSquare) } });
+
+	REQUIRE(aSquare.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
 	outFile << "gsave" << std::endl;
-	outFile << aSquare.PostScriptRepresentation();
+	outFile << aSquare.postScript();
 	outFile << "fill" << std::endl;
 	outFile << "grestore" << std::endl;
 	outFile << "showpage" << std::endl;
@@ -291,8 +342,27 @@ TEST_CASE("File Output - Layered", "[Layered I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
-	outFile << aLayered.PostScriptRepresentation();
+	outFile << PSHeader({ std::bind(&Layered::PostScriptRepresentation, aLayered) });
+
+	REQUIRE(aLayered.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aLayered.postScript();
 }
 
 TEST_CASE("File Output - Layered2", "[Layered I/O]")
@@ -314,14 +384,33 @@ TEST_CASE("File Output - Layered2", "[Layered I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
-	outFile << aLayered.PostScriptRepresentation();
+	outFile << PSHeader({ std::bind(&Layered::PostScriptRepresentation, aLayered) });
+
+	REQUIRE(aLayered.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aLayered.postScript();
 }
 
 TEST_CASE("File Output - Vertical", "[Vertical I/O]")
 {
 	const double SIDE_LENGTH = 1;
-	PostLib::PostScriptPoint aPoint = { 5, 4 };
+	PostLib::PostScriptPoint aPoint = { 5, 2 };
 
 	std::initializer_list<std::unique_ptr<Shape>> testPoly = { std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 3, 1)),
 		std::make_unique<PostLib::Polygon>(PostLib::Polygon(aPoint, 4, 1)),
@@ -334,8 +423,68 @@ TEST_CASE("File Output - Vertical", "[Vertical I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
-	outFile << aVert.PostScriptRepresentation();
+	outFile << PSHeader({ std::bind(&Vertical::PostScriptRepresentation, aVert) });
+
+	REQUIRE(aVert.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aVert.postScript();
+}
+
+TEST_CASE("File Output - Vertical2", "[Vertical I/O]")
+{
+	const double SIDE_LENGTH = 1;
+	PostLib::PostScriptPoint aPoint = { 72, 72 };
+	Circle aCircle = { aPoint, 72 };
+
+	std::initializer_list<std::unique_ptr<Shape>> testCir = 
+		{std::make_unique<PostLib::Circle>(aCircle),
+		 std::make_unique<PostLib::Circle>(PostLib::Circle(aPoint, 144 )),
+		 std::make_unique<PostLib::Circle>(PostLib::Circle(aPoint, 25  )),
+		 std::make_unique<PostLib::Circle>(PostLib::Circle(aPoint, 144 ))};
+
+	PostLib::Vertical aVert(aPoint, testCir);
+
+	std::ofstream outFile("verticalCirTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSHeader({ std::bind(&Circle::PostScriptRepresentation, aCircle) });
+
+	REQUIRE(aVert.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aVert.postScript();
 }
 
 TEST_CASE("File Output - Horizontal", "[Horizontal I/O]")
@@ -354,6 +503,120 @@ TEST_CASE("File Output - Horizontal", "[Horizontal I/O]")
 
 	REQUIRE(outFile);
 
-	outFile << PSPolyHeader();
-	outFile << aHor.PostScriptRepresentation();
+	outFile << PSHeader({ std::bind(&Horizontal::PostScriptRepresentation, aHor) });
+
+	REQUIRE(aHor.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aHor.postScript();
+}
+
+TEST_CASE("Rotated Shape", "[ROTATION]")
+{
+	std::ofstream outFile("rotateTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	PostLib::PostScriptPoint aPoint = { 144,144 };
+	unsigned int w = 20, h = 10;
+	PostLib::RotatedShape rotatedShape = RotatedShape(new PostLib::Rectangle(aPoint, w, h), ROTATION_ANGLE_90);
+	outFile << rotatedShape.PostScriptRepresentation();
+}
+
+TEST_CASE("Scaled Shape", "[SCALE]")
+{
+	std::ofstream outFile("scaleTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	PostLib::PostScriptPoint originalPoint = { 120, 240 };
+
+	PostLib::PostScriptPoint aPoint = { 144, 144 };
+	unsigned int w = 20, h = 10;
+	PostLib::Scaled scaledShape = PostLib::Scaled(new PostLib::Rectangle(aPoint, w, h), 2.0, 2.0);
+	scaledShape.PostScriptRepresentation();
+	outFile << scaledShape.PostScriptRepresentation();
+}
+
+TEST_CASE("Custom Shape Purple", "[FAN]")
+{
+	const unsigned int fanOut = 15;
+	PostLib::PostScriptPoint aPoint = { 4.5, 1 };
+
+	PostLib::Fan aFan(fanOut, aPoint);
+
+	std::ofstream outFile("customShapePurpleTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSHeader({ std::bind(&Fan::PostScriptRepresentation, aFan) });
+	
+	REQUIRE(aFan.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aFan.postScript(PURPLE);
+}
+
+TEST_CASE("Custom Shape Yellow", "[FAN]")
+{
+	const unsigned int fanOut = 15;
+	PostLib::PostScriptPoint aPoint = { 4.5, 1 };
+
+	PostLib::Fan aFan(fanOut, aPoint);
+
+	std::ofstream outFile("customShapeYellowTest.txt", std::ofstream::trunc);
+
+	REQUIRE(outFile);
+
+	outFile << PSHeader({ std::bind(&Fan::PostScriptRepresentation, aFan) });
+
+	REQUIRE(aFan.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
+		newpath\n\n\
+		/sideLen 				exch def\n\
+		/sides 					exch def\n\
+		/yPosOrigin 			exch def\n\
+		/xPosOrigin 			exch def\n\
+		/regularAngle 360 sides div def\n\n\
+		xPosOrigin yPosOrigin 	moveto\n\
+		sideLen sideLen 	  	scale\n\
+		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
+		1 1 sides{\n\
+		/vertex exch def\n\
+		/theta vertex regularAngle mul def\n\
+		theta cos theta sin rlineto\n\
+		} for\n\
+		closepath\n\n\
+	} def");
+
+	outFile << aFan.postScript(YELLOW);
 }

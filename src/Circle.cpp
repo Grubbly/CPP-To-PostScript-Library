@@ -28,7 +28,7 @@ PostLib::Circle::Circle() : Shape({ 50,50 }, { {5,4} , {4,4} }), radius(2)
     Shape(centerPoint, newBoundBox);*/
 }
 
-PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radius) : Shape(centerPoint, { {(centerPoint.x - (int)radius), (centerPoint.y - (int)radius)}, {2* (double)radius, 2* (double)radius} }), radius((int)radius)
+PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, double radius) : Shape(centerPoint, { {(centerPoint.x - radius), (centerPoint.y - radius)}, {2* radius, 2* radius} }), radius(radius)
 {
     /*PrimitiveRectangle newBoundBox;
     
@@ -44,27 +44,26 @@ PostLib::Circle::Circle(PostLib::PostScriptPoint centerPoint, unsigned int radiu
 
 std::string PostLib::Circle::PostScriptRepresentation(void)
 {
-    char* replacedCirclePSCode;
-    const char* blankCirclePSCode = "/renderCircle {\n\
-    2 dict begin\n\
-        /drawPosX %f def\n\
-        /drawPosY %f def\n\
-        \n\
-        drawPosX drawPosY %d 0 360 arc fill\n\
-        \n\
-        end\n\
-    } def\n\n\n\n";
-    
-    replacedCirclePSCode = (char *)malloc(strlen(blankCirclePSCode));
-    sprintf(replacedCirclePSCode, blankCirclePSCode, (float)this->centerPoint.x, (float)this->centerPoint.y, this->radius);
-    this->PostScriptCode = std::string(replacedCirclePSCode);
-    
-    //free(replacedCirclePSCode);
-    
-    return this->PostScriptCode;
+	this->PostScriptCode = 
+	"/renderCircle { %Parameter order: x, y, radius\n\
+		\n\
+		/radius   exch def\n\
+		/drawPosY exch def\n\
+		/drawPosX exch def\n\
+		\n\
+		drawPosX drawPosY radius 0 360 arc\n\
+		\n\
+	} def";
+	
+	return this->PostScriptCode;
+}
+
+double PostLib::Circle::getRadius() const
+{
+	return radius;
 }
 
 std::string PostLib::Circle::postScript()
 {
-    return this->PostScriptCode;
+	return std::to_string(center().x) + " " + std::to_string(center().y) + " " + std::to_string(getRadius()) + " renderCircle\n";
 }
