@@ -107,7 +107,7 @@ TEST_CASE("Circle PostScript Conversion", "[CIRCLE]")
     
     aCircle = Circle(aPoint, 12);
     
-	std::ofstream outFile("circleTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("circleTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -145,7 +145,7 @@ TEST_CASE("Rectangle PostScript Conversion", "[RECT]")
 
 TEST_CASE("Spacer PostScript Conversion", "[RECT: SPACE]")
 {
-	std::ofstream outFile("spaceTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("spaceTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -219,7 +219,7 @@ TEST_CASE("File Output - Polygon", "[Polygon I/O]")
 	PostLib::Polygon aPoly(aPoint, SIDES, SIDE_LENGTH);
 
 	//if i do polyTest.ps the file does not open or get written to...
-	std::ofstream outFile("polyTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("polyTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -257,7 +257,7 @@ TEST_CASE("File Output - Triangle", "[Triangle I/O]")
 
 	PostLib::Triangle aTri(aPoint, SIDE_LENGTH);
 
-	std::ofstream outFile("triangleTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("triangleTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -295,7 +295,7 @@ TEST_CASE("File Output - Square", "[Square I/O]")
 
 	PostLib::Square aSquare(aPoint, SIDE_LENGTH);
 
-	std::ofstream outFile("squareTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("squareTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -338,7 +338,7 @@ TEST_CASE("File Output - Layered", "[Layered I/O]")
 
 	PostLib::Layered aLayered(aPoint, testPoly);
 
-	std::ofstream outFile("layeredTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("layeredTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -380,7 +380,7 @@ TEST_CASE("File Output - Layered2", "[Layered I/O]")
 
 	PostLib::Layered aLayered(aPoint, testPoly);
 
-	std::ofstream outFile("layeredTest2.txt", std::ofstream::trunc);
+	std::ofstream outFile("layeredTest2.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -419,7 +419,7 @@ TEST_CASE("File Output - Vertical", "[Vertical I/O]")
 
 	PostLib::Vertical aVert(aPoint, testPoly);
 
-	std::ofstream outFile("verticalTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("verticalTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -460,7 +460,7 @@ TEST_CASE("File Output - Vertical2", "[Vertical I/O]")
 
 	PostLib::Vertical aVert(aPoint, testCir);
 
-	std::ofstream outFile("verticalCirTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("verticalCirTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -499,7 +499,7 @@ TEST_CASE("File Output - Horizontal", "[Horizontal I/O]")
 
 	PostLib::Horizontal aHor(aPoint, testPoly);
 
-	std::ofstream outFile("horizontalTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("horizontalTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -528,7 +528,7 @@ TEST_CASE("File Output - Horizontal", "[Horizontal I/O]")
 
 TEST_CASE("Rotated Shape", "[ROTATION]")
 {
-	std::ofstream outFile("rotateTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("rotateTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -540,7 +540,7 @@ TEST_CASE("Rotated Shape", "[ROTATION]")
 
 TEST_CASE("Scaled Shape", "[SCALE]")
 {
-	std::ofstream outFile("scaleTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("scaleTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -560,7 +560,7 @@ TEST_CASE("Custom Shape Purple", "[FAN]")
 
 	PostLib::Fan aFan(fanOut, aPoint);
 
-	std::ofstream outFile("customShapePurpleTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("customShapePurpleTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
@@ -594,7 +594,7 @@ TEST_CASE("Custom Shape Yellow", "[FAN]")
 
 	PostLib::Fan aFan(fanOut, aPoint);
 
-	std::ofstream outFile("customShapeYellowTest.txt", std::ofstream::trunc);
+	std::ofstream outFile("customShapeYellowTest.ps", std::ofstream::trunc);
 
 	REQUIRE(outFile);
 
