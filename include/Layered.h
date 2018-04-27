@@ -9,25 +9,21 @@
 
 #include <string>
 #include <vector>
-#include "Polygon.h"
 #include <memory>
+
+#include "Polygon.h"
+#include "CompositeShapes.h"
 
 #ifndef Layered_H
 #define Layered_H
 
 namespace PostLib {
 
-	class Layered : public PostLib::Shape
+	class Layered : public PostLib::CompositeShape
 	{
 	public:
 		Layered();
 		Layered(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<std::unique_ptr<Shape>> & shapeList);
-
-		virtual std::string PostScriptRepresentation(void) override;
-		std::string         postScript(void) override;
-	
-	private:
-		std::initializer_list<std::unique_ptr<Shape>> _shapeList;
 	};
 }
 
