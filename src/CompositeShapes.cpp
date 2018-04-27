@@ -1,9 +1,12 @@
-//
-//  CompositeShapes.cpp
-//  CS372HW5
-//
-//  Created by Collin Lasley on 4/26/18.
-//  Copyright © 2018 clasley. All rights reserved.
-//
+/*-------------------------------------------------------
+ | CS 372: Software Construction                        |
+ | Homework 5: Template Design Pattern                  |
+ | Date: 4/24/18                                        |
+ | File: CompositeShapes.cpp                            |
+ | Written By: Collin Lasley                            |
+ | Description: Base class for composite-type shapes    |
+ ------------------------------------------------------*/
 
-#include <stdio.h>
+#include <string>
+
+#include "CompositeShapes.h"
