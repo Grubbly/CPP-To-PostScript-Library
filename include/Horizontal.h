@@ -9,25 +9,21 @@
 
 #include <string>
 #include <vector>
-#include "Shape.h"
 #include <memory>
+
+#include "Shape.h"
+#include "CompositeShapes.h"
 
 #ifndef Horizontal_H
 #define Horizontal_H
 
 namespace PostLib {
 
-	class Horizontal : public PostLib::Shape
+	class Horizontal : public PostLib::CompositeShape
 	{
 	public:
 		Horizontal();
 		Horizontal(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<std::unique_ptr<Shape>> & shapeList);
-
-		virtual std::string PostScriptRepresentation(void) override;
-		std::string         postScript(void) override;
-
-	private:
-		std::initializer_list<std::unique_ptr<Shape>> _shapeList;
 	};
 }
 

@@ -469,24 +469,6 @@ TEST_CASE("File Output - Horizontal", "[Horizontal I/O]")
 
 	outFile << PSHeader({ std::bind(&Horizontal::PostScriptRepresentation, aHor) });
 
-	REQUIRE(aHor.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
-		newpath\n\n\
-		/sideLen 				exch def\n\
-		/sides 					exch def\n\
-		/yPosOrigin 			exch def\n\
-		/xPosOrigin 			exch def\n\
-		/regularAngle 360 sides div def\n\n\
-		xPosOrigin yPosOrigin 	moveto\n\
-		sideLen sideLen 	  	scale\n\
-		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
-		1 1 sides{\n\
-		/vertex exch def\n\
-		/theta vertex regularAngle mul def\n\
-		theta cos theta sin rlineto\n\
-		} for\n\
-		closepath\n\n\
-	} def");
-
 	outFile << aHor.postScript();
 }
 
