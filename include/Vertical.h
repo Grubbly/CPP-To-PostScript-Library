@@ -9,25 +9,21 @@
 
 #include <string>
 #include <vector>
-#include "Shape.h"
 #include <memory>
+
+#include "Shape.h"
+#include "CompositeShapes.h"
 
 #ifndef Vertical_H
 #define Vertical_H
 
 namespace PostLib {
 
-	class Vertical : public PostLib::Shape
+	class Vertical : public PostLib::CompositeShape
 	{
 	public:
 		Vertical();
 		Vertical(const PostLib::PostScriptPoint & centerPoint, const std::initializer_list<std::unique_ptr<Shape>> & shapeList);
-
-		virtual std::string PostScriptRepresentation(void) override;
-		std::string         postScript(void) override;
-
-	private:
-		std::initializer_list<std::unique_ptr<Shape>> _shapeList;
 	};
 }
 

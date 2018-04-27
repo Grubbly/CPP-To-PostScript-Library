@@ -425,24 +425,6 @@ TEST_CASE("File Output - Vertical", "[Vertical I/O]")
 
 	outFile << PSHeader({ std::bind(&Vertical::PostScriptRepresentation, aVert) });
 
-	REQUIRE(aVert.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
-		newpath\n\n\
-		/sideLen 				exch def\n\
-		/sides 					exch def\n\
-		/yPosOrigin 			exch def\n\
-		/xPosOrigin 			exch def\n\
-		/regularAngle 360 sides div def\n\n\
-		xPosOrigin yPosOrigin 	moveto\n\
-		sideLen sideLen 	  	scale\n\
-		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
-		1 1 sides{\n\
-		/vertex exch def\n\
-		/theta vertex regularAngle mul def\n\
-		theta cos theta sin rlineto\n\
-		} for\n\
-		closepath\n\n\
-	} def");
-
 	outFile << aVert.postScript();
 }
 
@@ -465,24 +447,6 @@ TEST_CASE("File Output - Vertical2", "[Vertical I/O]")
 	REQUIRE(outFile);
 
 	outFile << PSHeader({ std::bind(&Circle::PostScriptRepresentation, aCircle) });
-
-	REQUIRE(aVert.PostScriptRepresentation() == "/ngon { %Parameter order: xPosOrigin, yPosOrigin, sides, sideLen\n\
-		newpath\n\n\
-		/sideLen 				exch def\n\
-		/sides 					exch def\n\
-		/yPosOrigin 			exch def\n\
-		/xPosOrigin 			exch def\n\
-		/regularAngle 360 sides div def\n\n\
-		xPosOrigin yPosOrigin 	moveto\n\
-		sideLen sideLen 	  	scale\n\
-		1 sideLen inch		  	div setlinewidth % Counterbalances the scaling to prevent fat lines\n\n\
-		1 1 sides{\n\
-		/vertex exch def\n\
-		/theta vertex regularAngle mul def\n\
-		theta cos theta sin rlineto\n\
-		} for\n\
-		closepath\n\n\
-	} def");
 
 	outFile << aVert.postScript();
 }
